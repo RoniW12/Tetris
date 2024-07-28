@@ -1,0 +1,110 @@
+package tetris;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class KeypressSimulation {
+	Board board;
+	int BOARD_X, BOARD_Y;
+	public KeypressSimulation(Board board) {
+		this.board = board;
+		BOARD_X = board.BOARD_SIZE_X;
+		BOARD_Y = board.BOARD_SIZE_Y;
+		
+	}
+    public void run() {
+        JFrame frame = new JFrame("Press the button");
+        JPanel panel = new JPanel();
+        JButton button = new JButton("Left");
+        JButton button_2 = new JButton("Right");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	boolean collision = false;
+            	int [][] temp = new int[BOARD_Y][BOARD_X];
+            	board.board_copy(temp);
+            	for(int j = 1; j < BOARD_X; j++) {
+            		
+            		if(collision) {
+            			break;
+            		}
+    				for(int i = BOARD_Y-1; i >=0; i--) {
+    					if(board.board[i][0] == 1 || board.board[i][0] == -1) {
+							System.out.println("*********WALL***********");
+    						board.board = temp;
+    						collision = true;
+    						break;
+    					}
+    					//System.out.println(" "+i + " " + j);
+    					if(board.board[i][j] == 1|| board.board[i][j] == -1) {
+    							if(board.board[i][j-1] != 2) {
+	    						//System.out.println("Found");
+    	    					board.board[i][j-1] = board.board[i][j];
+	    						board.board[i][j] += -1;
+    							}
+    							else{
+	        						collision = true;
+	        						board.board = temp;
+	        						break;
+        					}
+    					}
+    					
+    				}
+    			}
+            	board.print_board();
+            }
+        });
+        button_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	int [][] temp = new int[BOARD_Y][BOARD_X];
+            	board.board_copy(temp);
+            	boolean collision = false;
+
+				for(int j = BOARD_X-2; j >= 0; j--) {
+
+            		if(collision) {
+            			break;
+            		}
+					for(int i = 0; i < BOARD_Y; i++) {
+						if(board.board[i][BOARD_X-1] == 1 || board.board[i][BOARD_X-1] == -1) {
+							System.out.println("*********WALL***********");
+    						board.board = temp;
+    						collision = true;
+    						break;
+    					}
+    					//System.out.println(" "+i + " " + j);
+    					if(board.board[i][j] == 1 || board.board[i][j] == -1) {
+    						if(board.board[i][j+1] != 2) {
+    						//System.out.println("Found");
+        						board.board[i][j+1] = board.board[i][j];
+        						board.board[i][j] += -1;
+    						}
+    						else{
+        						System.out.println("\nCollision*******");
+        						collision = true;
+        						board.board = temp;
+        						break;
+        					}
+    					}
+
+    					
+    				}
+    			}
+            	board.print_board();
+            }
+        });
+
+        panel.add(button);
+        panel.add(button_2);
+        frame.add(panel);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
