@@ -7,6 +7,7 @@ public class Board{
 	private Piece_Factory piece_gen;
 	public final int BOARD_SIZE_X = 10;
 	public final int BOARD_SIZE_Y = 50;
+	public Boolean isMoveable = true;
 	
 	public Board(){
 		board = new int[BOARD_SIZE_Y][BOARD_SIZE_X];
@@ -63,10 +64,27 @@ public class Board{
 			for(int k = 0; k < BOARD_SIZE_X; k++) {
 				if(board[i][k] == 1) { 
 					board[i][k] = 2;
+					isMoveable = true;
 				}
 				
 			}
 		}
+	}
+	
+	public boolean full_row(int i) {
+		for(int k = 1; k < BOARD_SIZE_X-1; k++) {
+			if(board[i][k] != 2) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void clear_row(int i) {
+		for(int j = 0; j < BOARD_SIZE_X; j++) {
+			board[i][j] = 0;
+		}
+
 	}
 	
 	public void move_down() {
@@ -113,8 +131,26 @@ public class Board{
 						}
 						
 					}
+					
 				}
 				if(!drop_flag) break;
+			}
+		}
+		
+		for(int i = BOARD_SIZE_Y-1; i >= 0; i--) {
+			if(full_row(i)) {
+				System.out.println("**********Clear row************");
+				piece_alive = true;
+				drop_flag = true;
+				isMoveable = false;
+				clear_row(i);
+				for(int k = 0; k <= i; k++) {
+					for(int j = 0; j < BOARD_SIZE_X; j++) {
+						if(board[k][j] == 2) board[k][j] = 1;
+					}
+							
+				}
+				break;
 			}
 		}
 		
