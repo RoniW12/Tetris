@@ -23,6 +23,18 @@ public abstract class Piece {
 		this.board = board;
 	}
 	
+	public boolean check_problem_rotation() {
+		for(int i = pos.get(Y); i < pos.get(Y) + size[Y]; i++) {
+			for(int j = pos.get(X); j < pos.get(X) + size[X]; j++) {
+				if(board.board[i][j] == 2) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
 	public void Get_Piece_Bound() {
 
 		pos = new Vector<Integer>();

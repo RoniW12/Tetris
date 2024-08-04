@@ -35,8 +35,13 @@ class T_Shape extends Piece{
 		}
 		
 		orientation = (orientation + 1)%4;
-		
+
+		if(pos.get(0) >= 50) {
+			return;
+		}
 		board.thread_lock.writeLock().lock();
+		
+		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				System.out.println("(" + i + ", " + j + ")" + " + " + pos.toString());
@@ -44,7 +49,6 @@ class T_Shape extends Piece{
 					board.board[i+pos.get(0)][j+pos.get(1)] = SHAPES[orientation][i][j]+2;
 				}
 				else {
-
 					board.board[i+pos.get(0)][j+pos.get(1)] = SHAPES[orientation][i][j];
 				}
 			}
@@ -85,9 +89,18 @@ class L_Shape extends Piece{
 }
 
 class I_Shape extends Piece{
-	private static final int[][] INITIAL_SHAPE = {
-	        {-1, -1, -1, -1}
-	    };
+	private static final int[][][] SHAPES = {
+        {{-2,-2,-2,-2},
+         {-1, -1, -1, -1},
+         {-2,-2,-2,-2},
+         {-2,-2,-2,-2}},
+        
+        {{-1,-2,-2,-2},
+         {-1,-2,-2,-2},
+         {-1,-2,-2,-2},
+         {-1,-2,-2,-2}}
+	};
+	private static final int[][] INITIAL_SHAPE = SHAPES[0];
 	public I_Shape() {
 		
 		super.Set_Shape(INITIAL_SHAPE);
@@ -96,6 +109,10 @@ class I_Shape extends Piece{
 	@Override
 	public void Rotate() {
 		super.Rotate();
+		
+		for(int i = 0; i < 4; i++) {
+			
+		}
 	}
 }
 
