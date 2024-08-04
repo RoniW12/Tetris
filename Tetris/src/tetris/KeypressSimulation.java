@@ -23,6 +23,8 @@ public class KeypressSimulation {
         JButton button_2 = new JButton("Right");
         JButton button_3 = new JButton("Down");
 
+        JButton button_R = new JButton("Rotate");
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,10 +117,19 @@ public class KeypressSimulation {
             	}
             }
         });
-
+        
+        button_R.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent e) {
+        		board.current_piece.Rotate();
+        		board.print_board();
+        	}
+        });
+        
         panel.add(button);
         panel.add(button_2);
         panel.add(button_3);
+        panel.add(button_R);
         frame.add(panel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
