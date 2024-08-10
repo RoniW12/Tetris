@@ -5,6 +5,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,6 +16,11 @@ import javax.imageio.ImageIO;
 public class ScoreboardDisplay {
     public static void showScoreboard() {
         JFrame frame = new JFrame("Scoreboard");
+        frame.addWindowListener(new WindowAdapter() {
+      	  public void windowClosing(WindowEvent e) {
+      		  TetrisOpeningScreen.openScreen();
+      	  }
+      	});
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null); // Center the frame

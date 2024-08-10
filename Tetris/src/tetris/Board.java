@@ -9,7 +9,7 @@ public class Board{
 	public int[][] board;
 	private Piece_Factory piece_gen;
 	public final int BOARD_SIZE_X = 10;
-	public final int BOARD_SIZE_Y = 50;
+	public final int BOARD_SIZE_Y = 30;
 	public Boolean isMoveable = true;
 	Piece current_piece;
 	final int EMPTY_ROWS = 5;

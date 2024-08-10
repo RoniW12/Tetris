@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -11,6 +13,11 @@ public class EndScreen {
     public static void showEndScreen(String username, int score) {
         // Create and set up the window
         JFrame frame = new JFrame("Game Over");
+        frame.addWindowListener(new WindowAdapter() {
+        	  public void windowClosing(WindowEvent e) {
+        		  TetrisOpeningScreen.openScreen();
+        	  }
+        	});
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null); // Center the frame
