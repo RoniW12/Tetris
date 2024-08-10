@@ -7,6 +7,7 @@ public abstract class Piece {
 	int[][] shape;
 	int[] size = new int[2];
 	Board board;
+	int orientation;
 
 	protected Vector<Integer> pos;
 	ArrayList<Vector<Integer>> location = new ArrayList<Vector<Integer>>();
@@ -16,11 +17,12 @@ public abstract class Piece {
 	private final int Y = 0;
 	
 	public void Piece() {
-		
+		orientation = 0;
 	}
 
 	public void Piece(Board board) {
 		this.board = board;
+		orientation = 0;
 	}
 	
 	public boolean check_problem_rotation() {
@@ -33,6 +35,18 @@ public abstract class Piece {
 		}
 		
 		return true;
+	}
+	
+	public boolean Check_Collision() {
+		for(int i = 0; i < size[0]; i++) {
+			for(int j = 0; j < size[1]; j++) {
+				if(board.board[pos.get(0) + i][pos.get(1) + j] == 2) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public void Get_Piece_Bound() {
