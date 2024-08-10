@@ -3,10 +3,10 @@ package tetris;
 
 class T_Shape extends Piece{
 	private static final int[][][] SHAPES = {
-			{{-2,-2,-2},{-2,-1,-2},{-1,-1,-1}},
-			{{-1,-2,-2},{-1,-1,-2},{-1,-2,-2}},
-			{{-1,-1,-1},{-2,-1,-2},{-2,-2,-2}},
-			{{-2,-2,-1},{-2,-1,-1},{-2,-2,-1}},
+			{{-2,-1,-2},{-1,-1,-1},{-2,-2,-2}},
+			{{-2,-1,-2},{-2,-1,-1},{-2,-1,-2}},
+			{{-2,-2,-2},{-1,-1,-1},{-2,-1,-2}},
+			{{-2,-1,-2},{-1,-1,-2},{-2,-1,-2}},
 	};
 	
 	
@@ -19,27 +19,28 @@ class T_Shape extends Piece{
 	
 	@Override
 	public void Rotate() {
+		board.thread_lock.writeLock().lock();
 		super.Rotate();
 		switch(orientation) {
 		case 0:
 			pos.set(0, pos.get(0)-1);
 			
 			if(pos.get(0) < 0) {
+				board.thread_lock.writeLock().unlock();
 				return;
 			}
 			break;
-		case 3:
+		case 1:
 			pos.set(1, pos.get(1)-1);
 			break;
 		}
-		
 		orientation = (orientation + 1)%4;
 
 		if(pos.get(0)+3 > 49 || super.Check_Collision()) {
 			return;
 		}
-		board.thread_lock.writeLock().lock();
 		
+		orientation = (orientation + 1)%4;
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {

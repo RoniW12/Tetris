@@ -20,7 +20,7 @@ public class TetrisOpeningScreen  extends Thread {
 
         // Create and set up the window
         JFrame frame = new JFrame("Tetris Game");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null); // Center the frame
 
@@ -38,7 +38,8 @@ public class TetrisOpeningScreen  extends Thread {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to start the game goes here
-            	GameManager gameThread = new GameManager();
+            	//GameScreen.show();
+                GameManager gameThread = new GameManager();
                 gameThread.start();
                 frame.dispose(); // Close the opening screen
                 // new TetrisGame().start(); // Un-comment and replace with actual game start code
