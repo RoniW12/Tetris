@@ -10,8 +10,7 @@ public class Helper extends TimerTask
 	}
     public void run()
     {
-		_board.print_board();
 		_board.move_down();
-
+		_board.print_board();
     }
 }
