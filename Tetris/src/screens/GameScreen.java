@@ -1,130 +1,126 @@
 package screens;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
 import javax.imageio.ImageIO;
 
-public class GameScreen {
-    public static void show() {
-        JFrame frame = new JFrame("Tetris");
-        frame.addWindowListener(new WindowAdapter() {
-        	  public void windowClosing(WindowEvent e) {
-        		  TetrisOpeningScreen.openScreen();
-        	  }
-        	});
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null); // Center the frame
+public class GameScreen extends JFrame {
+    private static final int GRID_ROWS = 20;
+    private static final int GRID_COLS = 10;
+    private static final int HORIZONTAL_PADDING = 20;
+    private static final int VERTICAL_PADDING = 50;
+    private int score = 0;
 
-        // Create a panel with a background image
-        BackgroundPanel backgroundPanel = new BackgroundPanel("Tetris\\src\\score_board_image1.jpg");
-        backgroundPanel.setLayout(new BorderLayout());
+    private JPanel gamePanel;
+    private JLabel scoreLabel;
+    private BufferedImage backgroundImage;
+    private JPanel[][] gridSquares;  // 2D array to store grid squares
 
-        // Transparent panel for holding components
-        JPanel transparentPanel = new JPanel();
-        transparentPanel.setOpaque(false);
-        transparentPanel.setLayout(new BorderLayout());
+    public GameScreen() {
+        setTitle("Tetris");
+        setSize(GRID_COLS * 20 + 200 + 2 * HORIZONTAL_PADDING, GRID_ROWS * 20 + 2 * VERTICAL_PADDING);  // Added width for next piece display
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        String[] columnNames = {"Username", "Score"};
-        String[][] data = ScoreBoard.getScores();
-
-        // Sort the data by scores in descending order
-        Arrays.sort(data, new Comparator<String[]>() {
-            @Override
-            public int compare(String[] o1, String[] o2) {
-                return Integer.compare(Integer.parseInt(o2[1]), Integer.parseInt(o1[1]));
-            }
-        });
-
-        JTable table = new JTable(data, columnNames) {
-            @Override
-            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
-                Component c = super.prepareRenderer(renderer, row, column);
-                if (c instanceof JComponent) {
-                    ((JComponent) c).setOpaque(false);
-                }
-                c.setForeground(Color.BLACK); // Set text color to black
-                ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER); // Center text
-                return c;
-            }
-        };
-
-        table.setFont(new Font("Arial", Font.BOLD, 14));
-        table.setRowHeight(30);
-        table.setShowGrid(false);
-        table.setOpaque(false);
-        ((DefaultTableCellRenderer) table.getDefaultRenderer(Object.class)).setOpaque(false);
-
-        // Make table header with white background
-        JTableHeader tableHeader = table.getTableHeader();
-        tableHeader.setDefaultRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground(Color.WHITE); // Set white background
-                c.setForeground(Color.BLACK); // Set text color to black
-                setHorizontalAlignment(JLabel.CENTER);
-                return c;
-            }
-        });
-        tableHeader.setOpaque(false);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        transparentPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Create and add a home page button
-        JButton homeButton = new JButton("Home Page");
-        homeButton.setBackground(Color.BLUE);
-        homeButton.setForeground(Color.WHITE);
-        homeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-				// Show the home page
-                TetrisOpeningScreen.openScreen();
-                frame.dispose(); // Close the scoreboard screen
-            }
-        });
-        transparentPanel.add(homeButton, BorderLayout.SOUTH);
-
-        // Add the transparent panel to the background panel
-        backgroundPanel.add(transparentPanel, BorderLayout.CENTER);
-
-        // Add the background panel to the frame
-        frame.getContentPane().add(backgroundPanel);
-
-        // Display the window
-        frame.setVisible(true);
-    }
-}
-
-// Custom JPanel class for drawing background image
-class GameScreenBackgroundPanel extends JPanel {
-    private Image backgroundImage;
-
-    public GameScreenBackgroundPanel(String imagePath) {
+        // Load background image
+        String backgroundImagePath = "Tetris\\src\\score_board_image1.jpg";
         try {
-            backgroundImage = ImageIO.read(new File(imagePath));
+            backgroundImage = ImageIO.read(new File(backgroundImagePath));
+            System.out.println("Background image loaded successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Create game panel (grid) with background image
+        gamePanel = new GameScreenBackgroundPanel();
+        gamePanel.setLayout(null);  // Use null layout to manually position components
+        gamePanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING));
+
+        // Create and position the grid
+        JPanel gridPanel = new JPanel(new GridLayout(GRID_ROWS, GRID_COLS));
+        gridPanel.setBounds(150, VERTICAL_PADDING, GRID_COLS * 20, GRID_ROWS * 20);  // Positioned grid to the right
+        gridPanel.setOpaque(false);  // Make the grid panel transparent
+
+        gridSquares = new JPanel[GRID_ROWS][GRID_COLS];
+        for (int row = 0; row < GRID_ROWS; row++) {
+            for (int col = 0; col < GRID_COLS; col++) {
+                JPanel square = new JPanel();
+                square.setOpaque(true);
+                square.setBackground(Color.LIGHT_GRAY);  // Default color
+                square.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));  // Grid lines in light gray
+                gridSquares[row][col] = square;
+                gridPanel.add(square);
+            }
+        }
+
+        gamePanel.add(gridPanel);
+
+        // Create score label
+        scoreLabel = new JLabel("Score: 0", SwingConstants.CENTER);
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 24));  // Font size adjusted
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setBounds(HORIZONTAL_PADDING, 0, GRID_COLS * 20 + 150, VERTICAL_PADDING);  // Adjusted bounds to center the text
+
+        gamePanel.add(scoreLabel);
+
+        // Add space for next piece display
+        JPanel nextPiecePanel = new JPanel();
+        nextPiecePanel.setBounds(HORIZONTAL_PADDING, VERTICAL_PADDING + GRID_ROWS * 20 + 10, 120, 120);  // Positioned next piece display area
+        nextPiecePanel.setBackground(new Color(0, 0, 0, 0));  // Transparent background
+
+        gamePanel.add(nextPiecePanel);
+
+        // Add game panel to the frame
+        add(gamePanel, BorderLayout.CENTER);
+
+        // Ensure the gamePanel is repainted and validated
+        gamePanel.revalidate();
+        gamePanel.repaint();
+
+        setVisible(true);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+    // Method to set the color of a grid square
+    public void setGridSquareColor( int row, int col, int value) {
+        //if (row >= 0 && row < GRID_ROWS && col >= 0 && col < GRID_COLS) {
+            JPanel square = gridSquares[row][col];
+            switch (Math.abs(value)) {
+                case 0:
+                    square.setBackground(Color.LIGHT_GRAY);
+                    break;
+                case 1:
+                    square.setBackground(Color.BLUE);
+                    break;
+                case 2:
+                    square.setBackground(Color.DARK_GRAY);
+                    break;
+                default:
+                    square.setBackground(Color.LIGHT_GRAY);  // Default color
+                    break;
+            }
+            square.repaint();
+        //}
+    }
+
+    public void updateScore(int score) {
+        scoreLabel.setText("Score: " + score); 
+    }
+
+    // Custom JPanel to draw the background image
+    private class GameScreenBackgroundPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                System.out.println("Background image is null.");
+            }
         }
     }
 }

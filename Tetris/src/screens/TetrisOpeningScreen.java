@@ -1,6 +1,7 @@
 package screens;
 import javax.swing.*;
 
+import tetris.Board;
 import tetris.GameManager;
 
 import java.awt.*;
@@ -13,7 +14,9 @@ import java.io.File;
 public class TetrisOpeningScreen  extends Thread {
     public void run() {
     	openScreen();
+//        GameManager gameManager = new GameManager();
     }
+    
     public static void openScreen() {
         // Ensure the scoreboard file exists
         ScoreBoard.ensureFileExists();
@@ -38,10 +41,8 @@ public class TetrisOpeningScreen  extends Thread {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to start the game goes here
-            	//GameScreen.show();
-                GameManager gameThread = new GameManager();
-                gameThread.start();
-                frame.dispose(); // Close the opening screen
+                GameManager gameManager = new GameManager();
+                frame.dispose();
                 // new TetrisGame().start(); // Un-comment and replace with actual game start code
             }
         });
