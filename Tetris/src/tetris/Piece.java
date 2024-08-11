@@ -8,8 +8,10 @@ public abstract class Piece {
 	int[] size = new int[2];
 	Board board;
 	int orientation;
+	protected int[][][] SHAPES;
 
 	protected Vector<Integer> pos;
+	protected Vector<Integer> pos2;
 	ArrayList<Vector<Integer>> location = new ArrayList<Vector<Integer>>();
 	
 	
@@ -45,25 +47,57 @@ public abstract class Piece {
 				}
 			}
 		}
-		
 		return false;
+	}
+	
+	public void Implement_Rotation() {
+		int max_size =  Math.max(size[0], size[1]);
+		for(int i = 0; i < max_size; i++) {
+			for(int j = 0; j < max_size; j++) {
+				if(board.board[i+pos.get(0)][j+pos.get(1)] >= 0) {
+					board.board[i+pos.get(0)][j+pos.get(1)] = SHAPES[orientation][i][j]+2;
+				}
+				else {
+					board.board[i+pos.get(0)][j+pos.get(1)] = SHAPES[orientation][i][j];
+				}
+			}
+		}
 	}
 	
 	public void Get_Piece_Bound() {
 
 		pos = new Vector<Integer>();
+		pos2 = new Vector<Integer>();
 		pos.add(board.BOARD_SIZE_Y);
 		pos.add(board.BOARD_SIZE_X-1);
+		pos2.add(0);
+		pos2.add(0);
+		location = new ArrayList<Vector<Integer>>(); 
 		
 		for(int i = 0; i < board.BOARD_SIZE_Y; i++) {
-			for(int j = 1; j<board.BOARD_SIZE_X-1; j++) {
+			for(int j = 0; j < board.BOARD_SIZE_X; j++) {
 				if(board.board[i][j] == 1 || board.board[i][j] ==-1) {
-					location.add(new Vector(i, j));
+					Vector<Integer> temp = new Vector<Integer>();
+					temp.add(i);
+					temp.add(j);
+					location.add(temp);
 					if(i < pos.get(0)) pos.set(0, i);
 					if(j < pos.get(1)) pos.set(1, j);
+					if(i > pos2.get(0)) pos2.set(0, i);
+					if(j > pos2.get(1)) pos2.set(1, j);
 				}
 			}
 		}
+		for(int i = 0; i < location.size(); i++) {
+			System.out.print(location.get(i).toString());
+		}
+		System.out.println();
+
+		System.out.println(pos2.get(0) + ", " + pos2.get(1));
+		System.out.println(pos.get(0) + ", " + pos.get(1));
+
+		size[Y] = pos2.get(0)- pos.get(0)+1;
+		size[X] = pos2.get(1)- pos.get(1)+1;
 
 	}
 	

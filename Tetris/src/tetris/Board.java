@@ -88,7 +88,7 @@ public class Board{
 	public boolean full_row(int i) {
 		thread_lock.readLock().lock();
 
-		for(int k = 1; k < BOARD_SIZE_X-1; k++) {
+		for(int k = 0; k < BOARD_SIZE_X; k++) {
 			if(board[i][k] != 2) {
 				thread_lock.readLock().unlock();
 
