@@ -80,7 +80,6 @@ public class KeyPressHandler {
 				board.board_copy(temp);
 				boolean collision = false;
 				board.current_piece.Get_Piece_Bound();
-            	System.out.println(board.current_piece.pos.get(1) +"   "+ (BOARD_X-board.current_piece.size[1]));
         		if(board.current_piece.pos.get(1) == BOARD_X-board.current_piece.size[1]) return;
         		
 				for(int j = BOARD_X-2; j >= 0; j--) {

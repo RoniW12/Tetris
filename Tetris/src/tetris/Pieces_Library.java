@@ -231,7 +231,7 @@ class Z_Shape extends Piece{
 	public Z_Shape() {
 		int[][][] _shapes = {
 		        {{-2,-2,-2},{-1, -1, -2},{-2, -1, -1}},
-		        {{-1,-2,-2},{-1, -1, -2},{-2, -1, -2}}
+		        {{-2,-2,-1},{-2, -1, -1},{-2, -1, -2}}
 		    };
 		super.SHAPES = _shapes;
 		super.Set_Shape(SHAPES[0]);
@@ -262,7 +262,7 @@ class Reverse_Z_Shape extends Piece{
 	public Reverse_Z_Shape() {
 		int[][][] _shapes = {
 		        {{-2,-2,-2},{-2, -1, -1},{-1, -1, -2}},
-		        {{-2,-2,-1},{-2, -1, -1},{-2, -1, -2}}
+		        {{-1,-2,-2},{-1, -1, -2},{-2, -1, -2}}
 		    };
 		super.SHAPES = _shapes;
 		super.Set_Shape(SHAPES[0]);
