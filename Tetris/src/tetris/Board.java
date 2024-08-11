@@ -19,6 +19,7 @@ public class Board{
 	ReadWriteLock thread_lock = new ReentrantReadWriteLock();
 	public int score = 0;
 	double multiplier = 1.0;
+	boolean gameOver = false;
 	
 	
 	public Board(){
@@ -153,6 +154,8 @@ public class Board{
 						if(board[i+1][j] == 2) {
 							board = temp;
 							this.piece_has_fallen();
+							if(i<=EMPTY_ROWS)
+								gameOver = true;
 							drop_flag = false;
 							break;
 						}
