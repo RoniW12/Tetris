@@ -9,7 +9,7 @@ public class Board{
 	public int[][] board;
 	private Piece_Factory piece_gen;
 	public final int BOARD_SIZE_X = 10;
-	public final int BOARD_SIZE_Y = 30;
+	public final int BOARD_SIZE_Y = 50;
 	public Boolean isMoveable = true;
 	Piece current_piece;
 	final int EMPTY_ROWS = 5;
@@ -85,7 +85,7 @@ public class Board{
 	public boolean full_row(int i) {
 		thread_lock.readLock().lock();
 
-		for(int k = 1; k < BOARD_SIZE_X-1; k++) {
+		for(int k = 0; k < BOARD_SIZE_X; k++) {
 			if(board[i][k] != 2) {
 				thread_lock.readLock().unlock();
 
