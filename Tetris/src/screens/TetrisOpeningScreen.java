@@ -33,7 +33,7 @@ public class TetrisOpeningScreen  extends Thread {
         backgroundPanel.setLayout(null); // Use null layout for absolute positioning
 
         // Create and add a start game button with rounded corners
-        RoundedButton startButton = new RoundedButton("Start Game");
+        CustomRoundedButton startButton = new CustomRoundedButton("Start Game");
         startButton.setBounds(145, 135, 100, 30); // Adjust position and size for block 1
         startButton.setBackground(Color.GREEN);
         startButton.setForeground(Color.WHITE);
@@ -49,7 +49,7 @@ public class TetrisOpeningScreen  extends Thread {
         backgroundPanel.add(startButton);
 
         // Create and add a scoreboard button with rounded corners
-        RoundedButton scoreboardButton = new RoundedButton("Scoreboard");
+        CustomRoundedButton scoreboardButton = new CustomRoundedButton("Scoreboard");
         scoreboardButton.setBounds(135, 170, 120, 30); // Position above the exit button
         scoreboardButton.setBackground(Color.BLUE);
         scoreboardButton.setForeground(Color.WHITE);
@@ -63,7 +63,7 @@ public class TetrisOpeningScreen  extends Thread {
         backgroundPanel.add(scoreboardButton);
 
         // Create and add an exit button with rounded corners
-        RoundedButton exitButton = new RoundedButton("Exit");
+        CustomRoundedButton exitButton = new CustomRoundedButton("Exit");
         exitButton.setBounds(145, 205, 100, 30); // Adjust position and size for block 2
         exitButton.setBackground(Color.RED);
         exitButton.setForeground(Color.WHITE);
@@ -76,7 +76,7 @@ public class TetrisOpeningScreen  extends Thread {
         backgroundPanel.add(exitButton);
 
         // Create and add a small yellow button to go to the end screen
-        RoundedButton endScreenButton = new RoundedButton("End Screen");
+        CustomRoundedButton endScreenButton = new CustomRoundedButton("End Screen");
         endScreenButton.setBounds(10, 10, 100, 30); // Position the button
         endScreenButton.setBackground(Color.YELLOW);
         endScreenButton.setForeground(Color.BLACK);
@@ -84,11 +84,11 @@ public class TetrisOpeningScreen  extends Thread {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Show the end screen
-                EndScreen.showEndScreen("Player1", 123); // Replace with actual username and score
+                EndScreen.showEndScreen(123); // Replace with actual username and score
                 frame.dispose(); // Close the opening screen
             }
         });
-        backgroundPanel.add(endScreenButton);
+        //backgroundPanel.add(endScreenButton);
 
         // Add the panel to the frame
         frame.getContentPane().add(backgroundPanel);
@@ -126,8 +126,8 @@ class OpenningScreenBackgroundPanel extends JPanel {
 }
 
 // Custom JButton class for rounded corners
-class CustomRoundedButton extends JButton {
-    public CustomRoundedButton(String label) {
+class CustomRoundedButton1 extends JButton {
+    public CustomRoundedButton1(String label) {
         super(label);
         setContentAreaFilled(false);
         setFocusPainted(false);

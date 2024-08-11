@@ -20,6 +20,11 @@ public class GameScreen extends JFrame {
     private JLabel scoreLabel;
     private BufferedImage backgroundImage;
     private JPanel[][] gridSquares;  // 2D array to store grid squares
+    
+    Color gridColor = Color.WHITE;
+    Color emptyColor = Color.LIGHT_GRAY;
+    Color pieceColor = Color.BLUE;
+    Color lockedColor = Color.GRAY;
 
     public GameScreen() {
         setTitle("Tetris");
@@ -52,7 +57,7 @@ public class GameScreen extends JFrame {
                 JPanel square = new JPanel();
                 square.setOpaque(true);
                 square.setBackground(Color.LIGHT_GRAY);  // Default color
-                square.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));  // Grid lines in light gray
+                square.setBorder(BorderFactory.createLineBorder(gridColor));  // Grid lines in light gray
                 gridSquares[row][col] = square;
                 gridPanel.add(square);
             }
@@ -89,18 +94,24 @@ public class GameScreen extends JFrame {
     public void setGridSquareColor( int row, int col, int value) {
         //if (row >= 0 && row < GRID_ROWS && col >= 0 && col < GRID_COLS) {
             JPanel square = gridSquares[row][col];
-            switch (Math.abs(value)) {
+            switch (value) {
                 case 0:
-                    square.setBackground(Color.BLACK);
+                    square.setBackground(emptyColor);
+                    break;
+                case -2:
+                    square.setBackground(gridColor);
                     break;
                 case 1:
-                    square.setBackground(Color.BLUE);
+                    square.setBackground(pieceColor);
+                    break;
+                case -1:
+                    square.setBackground(pieceColor);
                     break;
                 case 2:
-                    square.setBackground(Color.WHITE);
+                    square.setBackground(lockedColor);
                     break;
                 default:
-                    square.setBackground(Color.WHITE);  // Default color
+                    square.setBackground(emptyColor);  // Default color
                     break;
             }
             square.repaint();

@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import screens.EndScreen;
 import screens.GameScreen;
 import screens.TetrisOpeningScreen;
 
@@ -33,7 +34,7 @@ public class GameManager{
 		
     	gameScreen.addWindowListener(new WindowAdapter() {
       	  public void windowClosing(WindowEvent e) {
-      		  stopGame();
+      		  stopGame(false);
     		  TetrisOpeningScreen.openScreen();
     	  }
     	});
@@ -67,10 +68,13 @@ public class GameManager{
         isRunning = true;
         scheduledFuture = timer.scheduleAtFixedRate(gameTask, 250, 250, TimeUnit.MILLISECONDS); // Use scheduleAtFixedRate for fixed interval
 	}
-	public boolean stopGame() {
+	public boolean stopGame(boolean openEndScreen) {
 		if (isRunning) {
 	        scheduledFuture.cancel(true); // Cancel without interrupting current task
 	        timer.shutdown();
+	        if(openEndScreen)
+	        	EndScreen.showEndScreen(board.score);
+	        gameScreen.dispose();
 	        isRunning = false;
 	        return true;
 	    }
@@ -88,7 +92,11 @@ public class GameManager{
 			board.multiplier = 1.0;
 		}
 	    public void run()
-	    {
+	    {	
+	    	if(board.gameOver) {
+	    		System.out.println("quitting game");
+	    		stopGame(true);
+	    	}
 	    	if(counter > 20) {
 	    		counter = 0;
 	    		board.multiplier += 0.01;
@@ -110,6 +118,10 @@ public class GameManager{
 			}
 			gameScreen.updateScore(board.score);
 		}
+	    
+	    public void finishGame(){
+	    	
+	    }
 	}	
 }
 

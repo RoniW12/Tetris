@@ -1,4 +1,5 @@
 package screens;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,15 +10,22 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 public class EndScreen {
-    public static void showEndScreen(String username, int score) {
+    public static void showEndScreen(int score) {
         // Create and set up the window
         JFrame frame = new JFrame("Game Over");
         frame.addWindowListener(new WindowAdapter() {
-        	  public void windowClosing(WindowEvent e) {
-        		  TetrisOpeningScreen.openScreen();
-        	  }
-        	});
+            public void windowClosing(WindowEvent e) {
+                TetrisOpeningScreen.openScreen();
+            }
+        });
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null); // Center the frame
@@ -33,37 +41,47 @@ public class EndScreen {
         gameOverLabel.setBounds(0, 30, 400, 50); // Centered horizontally
         backgroundPanel.add(gameOverLabel);
 
-        // Create and add a label for the username and score
-        JLabel scoreLabel = new JLabel(username + ", your score is " + score, SwingConstants.CENTER);
+        // Create and add a label for the score
+        JLabel scoreLabel = new JLabel("Your score is " + score, SwingConstants.CENTER);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 18));
         scoreLabel.setForeground(Color.BLACK);
         scoreLabel.setBounds(0, 80, 400, 30); // Centered horizontally
         backgroundPanel.add(scoreLabel);
 
+        // Create and add a text field for the username input
+        CustomInputbox usernameField = new CustomInputbox();
+        backgroundPanel.add(usernameField);
+
         // Create and add a save score button with rounded corners
-        CustomRoundedButton saveScoreButton = new CustomRoundedButton("Save Score");
-        saveScoreButton.setBounds(145, 135, 110, 30);
+        CustomRoundedButton1 saveScoreButton = new CustomRoundedButton1("Save Score");
+        saveScoreButton.setBounds(145, 160, 110, 30);
         saveScoreButton.setBackground(Color.BLACK);
         saveScoreButton.setForeground(Color.WHITE);
         saveScoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Code to save the score goes here
-                ScoreBoard.saveScore(username, score);
-                System.out.println("Score saved!");
+                // Save the score with the entered username
+                String username = usernameField.getText().trim();
+                if (!username.isEmpty()) {
+                    ScoreBoard.saveScore(username, score);
+                    ScoreboardDisplay.showScoreboard();
+                    frame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Please enter your name.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         backgroundPanel.add(saveScoreButton);
 
         // Create and add a home page button with rounded corners
-        CustomRoundedButton homeButton = new CustomRoundedButton("Home Page");
-        homeButton.setBounds(145, 175, 110, 30);
+        CustomRoundedButton1 homeButton = new CustomRoundedButton1("Home Page");
+        homeButton.setBounds(145, 200, 110, 30);
         homeButton.setBackground(Color.BLACK);
         homeButton.setForeground(Color.WHITE);
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-				// Show the home page
+                // Show the home page
                 TetrisOpeningScreen.openScreen();
                 frame.dispose(); // Close the end screen
             }
@@ -100,8 +118,8 @@ class BackgroundPanel extends JPanel {
 }
 
 // Custom JButton class for rounded corners
-class RoundedButton extends JButton {
-    public RoundedButton(String label) {
+class CustomRoundedButton extends JButton {
+    public CustomRoundedButton(String label) {
         super(label);
         setContentAreaFilled(false);
         setFocusPainted(false);
@@ -135,3 +153,58 @@ class RoundedButton extends JButton {
         return (x >= 0 && x <= width && y >= 0 && y <= height);
     }
 }
+
+
+class CustomInputbox extends JTextField {
+
+    public CustomInputbox() {
+        // Create and set properties for the input box
+        setBounds(150, 120, 200, 30);
+        setFont(new Font("Arial", Font.PLAIN, 16));
+        setHorizontalAlignment(JTextField.CENTER);
+        
+        // Limit the number of characters to 10
+        int maxCharacters = 10;
+        ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if ((fb.getDocument().getLength() + string.length()) <= maxCharacters) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if ((fb.getDocument().getLength() + text.length() - length) <= maxCharacters) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
+        // Add the label directly within the class
+        JLabel nameLabel = new JLabel("Your Name:");
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        nameLabel.setBounds(50, 120, 100, 30);  // Adjusted to be next to the input box
+        
+        // Add the label to the parent container
+        Container parent = getParent();
+        if (parent != null) {
+            parent.add(nameLabel);
+        }
+    }
+
+    // Overriding the addNotify method to ensure the label is added after the component is added to the container
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        Container parent = getParent();
+        if (parent != null) {
+            JLabel nameLabel = new JLabel("Your Name:");
+            nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            nameLabel.setBounds(50, 120, 100, 30);  // Adjusted to be next to the input box
+            parent.add(nameLabel);
+        }
+    }
+}
+
+
