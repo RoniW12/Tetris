@@ -1,18 +1,9 @@
 package tetris;
-import java.util.Timer;
-import java.util.TimerTask;
+import screens.TetrisOpeningScreen;
 
-
-public class Main {
-	
-	public static void main(String[] args) {
-		Board board = new Board();
-        KeypressSimulation test = new KeypressSimulation(board);
-        test.run();
-		Timer timer = new Timer();
-        TimerTask task = new Helper(board);
-        timer.schedule(task, 250, 250);
-	}
-	
-	
+public class Main extends Thread {
+  public static void main(String[] args) {
+    TetrisOpeningScreen screenThread = new TetrisOpeningScreen();
+	screenThread.start();
+  }
 }

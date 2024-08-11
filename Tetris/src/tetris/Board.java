@@ -4,17 +4,20 @@ import java.util.Random;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import screens.GameScreen;
+
 
 public class Board{
 	public int[][] board;
 	private Piece_Factory piece_gen;
 	public final int BOARD_SIZE_X = 10;
-	public final int BOARD_SIZE_Y = 50;
+	public final int BOARD_SIZE_Y = 20;
 	public Boolean isMoveable = true;
 	Piece current_piece;
 	final int EMPTY_ROWS = 5;
 	Random rng = new Random();
 	ReadWriteLock thread_lock = new ReentrantReadWriteLock();
+	public int score = 0;
 	
 	public Board(){
 		board = new int[BOARD_SIZE_Y][BOARD_SIZE_X];
@@ -85,7 +88,7 @@ public class Board{
 	public boolean full_row(int i) {
 		thread_lock.readLock().lock();
 
-		for(int k = 1; k < BOARD_SIZE_X-1; k++) {
+		for(int k = 0; k < BOARD_SIZE_X; k++) {
 			if(board[i][k] != 2) {
 				thread_lock.readLock().unlock();
 
@@ -101,6 +104,7 @@ public class Board{
 		for(int j = 0; j < BOARD_SIZE_X; j++) {
 			board[i][j] = 0;
 		}
+		score  += 10;
 
 	}
 	
