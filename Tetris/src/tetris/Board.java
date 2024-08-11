@@ -18,6 +18,8 @@ public class Board{
 	Random rng = new Random();
 	ReadWriteLock thread_lock = new ReentrantReadWriteLock();
 	public int score = 0;
+	double multiplier = 1.0;
+	
 	
 	public Board(){
 		board = new int[BOARD_SIZE_Y][BOARD_SIZE_X];
@@ -32,6 +34,7 @@ public class Board{
 		
 		current_piece = spawn_piece();
 	}
+
 	
 	public void board_copy(int[][] temp) {
 		thread_lock.readLock().lock();
@@ -104,7 +107,7 @@ public class Board{
 		for(int j = 0; j < BOARD_SIZE_X; j++) {
 			board[i][j] = 0;
 		}
-		score  += 10;
+		score  += 10*(1+10*(multiplier-1));
 
 	}
 	

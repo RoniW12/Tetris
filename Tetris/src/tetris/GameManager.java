@@ -22,9 +22,7 @@ public class GameManager{
     Helper gameTask;
 	boolean isRunning = false;
 	private Board board;
-	private GameScreen gameScreen;
-    Double multiplier = 1.0;
-    private ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+	private GameScreen gameScreen;    private ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
 	private ScheduledFuture<?> scheduledFuture;
 
 	
@@ -32,6 +30,7 @@ public class GameManager{
 		
     	gameScreen = new GameScreen();
 		this.board = new Board();
+		
     	gameScreen.addWindowListener(new WindowAdapter() {
       	  public void windowClosing(WindowEvent e) {
       		  stopGame();
@@ -40,7 +39,7 @@ public class GameManager{
     	});
 
         timer = Executors.newSingleThreadScheduledExecutor();
-        gameTask = new Helper(multiplier, timer);
+        gameTask = new Helper(board, timer);
 		KeyPressHandler handler = new KeyPressHandler(board, gameScreen); 
     	
         JPanel panel = new JPanel();
@@ -70,7 +69,8 @@ public class GameManager{
 	}
 	public boolean stopGame() {
 		if (isRunning) {
-	        scheduledFuture.cancel(false); // Cancel without interrupting current task
+	        scheduledFuture.cancel(true); // Cancel without interrupting current task
+	        timer.shutdown();
 	        isRunning = false;
 	        return true;
 	    }
@@ -80,19 +80,20 @@ public class GameManager{
 	public class Helper implements Runnable {
 		ScheduledExecutorService _timer;
 		int counter;
-		double multiplier;
-		public Helper(Double multiplier, ScheduledExecutorService timer) {
+		Board board;
+		public Helper(Board board, ScheduledExecutorService timer) {
+			this.board = board;
 			_timer = timer;
 			counter = 0;
-			multiplier = 1.0;
+			board.multiplier = 1.0;
 		}
 	    public void run()
 	    {
 	    	if(counter > 20) {
 	    		counter = 0;
-	    		multiplier += 0.01;
-	    		System.out.println("********Speedup: Multiplier = "+multiplier+"**********");
-	            scheduledFuture = timer.schedule(this, (int) (250 / multiplier), TimeUnit.MILLISECONDS);
+	    		board.multiplier += 0.01;
+	    		System.out.println("********Speedup: Multiplier = "+board.multiplier+"**********");
+	            scheduledFuture = timer.schedule(this, (int) (250 / board.multiplier), TimeUnit.MILLISECONDS);
 	    	}
 	    	
 			board.move_down();
