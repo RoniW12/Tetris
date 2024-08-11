@@ -19,7 +19,7 @@ public class Piece_Factory {
 		try {
 
 			//return reflector.Generate(PIECE_LIST[number]);
-			Piece temp = reflector.Generate(PIECE_LIST[number%3]);
+			Piece temp = reflector.Generate(PIECE_LIST[number]);
 			temp.Set_Board(board);
 			return temp;
 		} catch (Exception e) {
