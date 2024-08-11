@@ -26,33 +26,37 @@ public class KeyPressHandler {
 				boolean collision = false;
 				int[][] temp = new int[BOARD_Y][BOARD_X];
 				board.board_copy(temp);
-				for (int j = 1; j < BOARD_X; j++) {
-
-					if (collision) {
-						break;
-					}
-					for (int i = BOARD_Y - 1; i >= 0; i--) {
-						if (board.board[i][0] == 1 || board.board[i][0] == -1) {
+        		board.current_piece.Get_Piece_Bound();
+        		if(board.current_piece.pos.get(1) == 0) return;
+        		
+            	for(int j = 1; j < BOARD_X; j++) {
+            		
+            		if(collision) {
+            			break;
+            		}
+    				for(int i = BOARD_Y-1; i >=0; i--) {
+/*    					if(board.board[i][0] == 1 || board.board[i][0] == -1) {
 							System.out.println("*********WALL***********");
-							board.board = temp;
-							collision = true;
-							break;
-						}
-						// System.out.println(" "+i + " " + j);
-						if (board.board[i][j] == 1 || board.board[i][j] == -1) {
-							if (board.board[i][j - 1] != 2) {
-								// System.out.println("Found");
-								board.board[i][j - 1] = board.board[i][j];
-								board.board[i][j] += -1;
-							} else {
-								collision = true;
-								board.board = temp;
-								break;
-							}
-						}
-
-					}
-				}
+    						board.board = temp;
+    						collision = true;
+    						break;
+    					}*/
+    					//System.out.println(" "+i + " " + j);
+    					if(board.board[i][j] == 1|| board.board[i][j] == -1) {
+    							if(board.board[i][j-1] != 2) {
+	    						//System.out.println("Found");
+    	    					board.board[i][j-1] = board.board[i][j];
+	    						board.board[i][j] += -1;
+    							}
+    							else{
+	        						collision = true;
+	        						board.board = temp;
+	        						break;
+        					}
+    					}
+    					
+    				}
+    			}
 				updateScrean();
 			}
 		}
@@ -75,35 +79,40 @@ public class KeyPressHandler {
 				int[][] temp = new int[BOARD_Y][BOARD_X];
 				board.board_copy(temp);
 				boolean collision = false;
+				board.current_piece.Get_Piece_Bound();
+            	System.out.println(board.current_piece.pos.get(1) +"   "+ (BOARD_X-board.current_piece.size[1]));
+        		if(board.current_piece.pos.get(1) == BOARD_X-board.current_piece.size[1]) return;
+        		
+				for(int j = BOARD_X-2; j >= 0; j--) {
 
-				for (int j = BOARD_X - 2; j >= 0; j--) {
-
-					if (collision) {
-						break;
-					}
-					for (int i = 0; i < BOARD_Y; i++) {
-						if (board.board[i][BOARD_X - 1] == 1 || board.board[i][BOARD_X - 1] == -1) {
+            		if(collision) {
+            			break;
+            		}
+					for(int i = 0; i < BOARD_Y; i++) {
+						/*if(board.board[i][BOARD_X-1] == 1 || board.board[i][BOARD_X-1] == -1) {
 							System.out.println("*********WALL***********");
-							board.board = temp;
-							collision = true;
-							break;
-						}
-						// System.out.println(" "+i + " " + j);
-						if (board.board[i][j] == 1 || board.board[i][j] == -1) {
-							if (board.board[i][j + 1] != 2) {
-								// System.out.println("Found");
-								board.board[i][j + 1] = board.board[i][j];
-								board.board[i][j] += -1;
-							} else {
-								System.out.println("\nCollision*******");
-								collision = true;
-								board.board = temp;
-								break;
-							}
-						}
+    						board.board = temp;
+    						collision = true;
+    						break;
+    					}*/
+    					//System.out.println(" "+i + " " + j);
+    					if(board.board[i][j] == 1 || board.board[i][j] == -1) {
+    						if(board.board[i][j+1] != 2) {
+    						//System.out.println("Found");
+        						board.board[i][j+1] = board.board[i][j];
+        						board.board[i][j] += -1;
+    						}
+    						else{
+        						System.out.println("\nCollision*******");
+        						collision = true;
+        						board.board = temp;
+        						break;
+        					}
+    					}
 
-					}
-				}
+    					
+    				}
+    			}
 				updateScrean();
 			}
 		}
