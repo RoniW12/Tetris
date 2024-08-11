@@ -91,16 +91,16 @@ public class GameScreen extends JFrame {
             JPanel square = gridSquares[row][col];
             switch (Math.abs(value)) {
                 case 0:
-                    square.setBackground(Color.LIGHT_GRAY);
+                    square.setBackground(Color.BLACK);
                     break;
                 case 1:
                     square.setBackground(Color.BLUE);
                     break;
                 case 2:
-                    square.setBackground(Color.DARK_GRAY);
+                    square.setBackground(Color.WHITE);
                     break;
                 default:
-                    square.setBackground(Color.LIGHT_GRAY);  // Default color
+                    square.setBackground(Color.WHITE);  // Default color
                     break;
             }
             square.repaint();

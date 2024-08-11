@@ -88,13 +88,6 @@ public abstract class Piece {
 				}
 			}
 		}
-		for(int i = 0; i < location.size(); i++) {
-			System.out.print(location.get(i).toString());
-		}
-		System.out.println();
-
-		System.out.println(pos2.get(0) + ", " + pos2.get(1));
-		System.out.println(pos.get(0) + ", " + pos.get(1));
 
 		size[Y] = pos2.get(0)- pos.get(0)+1;
 		size[X] = pos2.get(1)- pos.get(1)+1;
