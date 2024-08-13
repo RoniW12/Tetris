@@ -26,7 +26,7 @@ public class ScoreboardDisplay {
         frame.setLocationRelativeTo(null); // Center the frame
 
         // Create a panel with a background image
-        BackgroundPanel backgroundPanel = new BackgroundPanel("Tetris\\src\\score_board_image1.jpg");
+        BackgroundPanel backgroundPanel = new BackgroundPanel("Tetris\\src\\podium.jpg");
         backgroundPanel.setLayout(new BorderLayout());
 
         // Transparent panel for holding components

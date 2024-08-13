@@ -213,12 +213,12 @@ class I_Shape extends Piece{
 }
 
 class O_Shape extends Piece{
-	private static final int[][] INITIAL_SHAPE = {
-	        {-1, -1},{ -1, -1}
+	private static final int[][][] SHAPES = {
+	        {{-1, -1},{ -1, -1}}
 	    };
 	public O_Shape() {
-		
-		super.Set_Shape(INITIAL_SHAPE);
+		super.SHAPES = SHAPES;
+		super.Set_Shape(SHAPES[0]);
 	}
 	
 	@Override

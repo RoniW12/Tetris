@@ -13,13 +13,14 @@ public class Board{
 	public final int BOARD_SIZE_X = 10;
 	public final int BOARD_SIZE_Y = 20;
 	public Boolean isMoveable = true;
-	Piece current_piece;
+	Piece current_piece, next_piece;
 	final int EMPTY_ROWS = 5;
 	Random rng = new Random();
 	ReadWriteLock thread_lock = new ReentrantReadWriteLock();
 	public int score = 0;
 	double multiplier = 1.0;
 	boolean gameOver = false;
+	public boolean updateNextPiece = true;
 	
 	
 	public Board(){
@@ -32,10 +33,28 @@ public class Board{
 			}
 		}
 		piece_gen = new Piece_Factory(this);
-		
-		current_piece = spawn_piece();
-	}
 
+		next_piece  = piece_gen.Gen_piece();
+		spawn_piece();
+	}
+	
+
+	private Piece spawn_piece() {
+		current_piece = next_piece;
+		next_piece = piece_gen.Gen_piece();
+		int num_rotate = rng.nextInt(3);
+		
+		for(int i = 0; i < current_piece.size[0]; i++) {
+			for(int j = 0; j < current_piece.size[1]; j++) {
+				board[i][j+4] = current_piece.shape[i][j];
+			}
+		}
+		
+		//for(int i = 0; i < num_rotate; i++) {
+		//	piece.Rotate();
+		//}
+		return current_piece;
+	}
 	
 	public void board_copy(int[][] temp) {
 		thread_lock.readLock().lock();
@@ -112,22 +131,6 @@ public class Board{
 
 	}
 	
-	private Piece spawn_piece() {
-		Piece piece = piece_gen.Gen_piece();
-		int num_rotate = rng.nextInt(3);
-		
-		for(int i = 0; i < piece.size[0]; i++) {
-			for(int j = 0; j < piece.size[1]; j++) {
-				board[i][j+4] = piece.shape[i][j];
-			}
-		}
-		
-		//for(int i = 0; i < num_rotate; i++) {
-		//	piece.Rotate();
-		//}
-		
-		return piece;
-	}
 	
 	public void move_down() {
 		boolean piece_alive = false;
@@ -204,6 +207,7 @@ public class Board{
 		
 		if(!piece_alive) {
 			current_piece = spawn_piece();
+			updateNextPiece = true;
 		}
 	}
 }
