@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 public class ScoreboardDisplay {
     public static void showScoreboard() {
     	MusicPlayer player = MusicPlayer.getInstance();
- 	    player.playMusic("src\\scoreBoard.wav", false);
+ 	    player.playMusic("Tetris\\src\\scoreBoard.wav", false);
         JFrame frame = new JFrame("Scoreboard");
         frame.addWindowListener(new WindowAdapter() {
       	  public void windowClosing(WindowEvent e) {
@@ -28,7 +28,7 @@ public class ScoreboardDisplay {
         frame.setLocationRelativeTo(null); // Center the frame
 
         // Create a panel with a background image
-        BackgroundPanel backgroundPanel = new BackgroundPanel("src\\podium.jpg");
+        BackgroundPanel backgroundPanel = new BackgroundPanel("Tetris\\src\\podium.jpg");
         backgroundPanel.setLayout(new BorderLayout());
 
         // Transparent panel for holding components

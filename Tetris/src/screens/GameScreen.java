@@ -28,17 +28,20 @@ public class GameScreen extends JFrame {
     
     Color current_piece_color=Color.BLUE;
     Color next_piece_color=Color.BLUE;
+    tetris.Board gameBoard;
 
-    public GameScreen() {
+    public GameScreen(tetris.Board game_board) {
+    	this.gameBoard = game_board;
+    	
     	//MusicPlayer musicPlayer = new MusicPlayer();
-    	//musicPlayer.playMusic("C:\\Users\\roniw\\eclipse-workspace\\Teris_Project\\src\\game_music.wav"); // Replace with your actual music file path
+    	//musicPlayer.playMusic("C:\\Users\\roniw\\eclipse-workspace\\Teris_Project\\Tetris\\src\\game_music.wav"); // Replace with your actual music file path
 
         setTitle("Tetris");
         setSize(GRID_COLS * 20 + 200 + 2 * HORIZONTAL_PADDING, GRID_ROWS * 20 + 2 * VERTICAL_PADDING);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        String backgroundImagePath = "src\\background_image.jpg";
+        String backgroundImagePath = "Tetris\\src\\background_image.jpg";
         try {
             backgroundImage = ImageIO.read(new File(backgroundImagePath));
             System.out.println("Background image loaded successfully.");
@@ -121,6 +124,7 @@ public class GameScreen extends JFrame {
     }
 
     public void setGridSquareColor(int row, int col, int value) {
+    	current_piece_color = gameBoard.current_piece.piece_color;
         if (row >= 0 && row < GRID_ROWS && col >= 0 && col < GRID_COLS) {
             JPanel square = gridSquares[row][col];
             switch (value) {
@@ -148,6 +152,8 @@ public class GameScreen extends JFrame {
     }
 
     public void setNextPieceSquareColor(int row, int col, int value) {
+    	next_piece_color = gameBoard.next_piece.piece_color;
+    	
         if (row >= 0 && row < 4 && col >= 0 && col < 4) {
             JPanel square = nextPieceSquares[row][col];
             switch (value) {
@@ -215,13 +221,4 @@ public class GameScreen extends JFrame {
     	return this.current_piece_color;
     }
     
-    public void set_Next_Piece_Color(Color c)
-    {
-    	next_piece_color=c;
-    }
-    
-    public Color get_Next_Piece_Color()
-    {
-    	return this.next_piece_color;
-    }
 }

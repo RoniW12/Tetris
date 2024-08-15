@@ -14,7 +14,7 @@ import java.io.File;
 public class TetrisOpeningScreen  extends Thread {
     public void run() {
     	MusicPlayer player = MusicPlayer.getInstance();
- 	    player.playMusic("src\\welcome to the show.wav", false);
+ 	    player.playMusic("Tetris\\src\\welcome to the show.wav", false);
     	openScreen();
 //        GameManager gameManager = new GameManager();
     }
@@ -31,7 +31,7 @@ public class TetrisOpeningScreen  extends Thread {
         frame.setLocationRelativeTo(null); // Center the frame
 
         // Use the absolute path for the image
-        String imagePath = "src\\tetris_Image.jpg"; // Replace with your absolute path
+        String imagePath = "Tetris\\src\\tetris_Image.jpg"; // Replace with your absolute path
         BackgroundPanel backgroundPanel = new BackgroundPanel(imagePath);
         backgroundPanel.setLayout(null); // Use null layout for absolute positioning
 
@@ -46,7 +46,7 @@ public class TetrisOpeningScreen  extends Thread {
             public void actionPerformed(ActionEvent e) {
             	//************************************************************************************************************************
         	    MusicPlayer player = MusicPlayer.getInstance();
-        	    player.playMusic("src\\game_music.wav", true);
+        	    player.playMusic("Tetris\\src\\game_music.wav", true);
                 // Code to start the game goes here
                 GameManager gameManager = new GameManager();
                 frame.dispose();

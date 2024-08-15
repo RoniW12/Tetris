@@ -32,8 +32,9 @@ public class GameManager{
 	
 	public GameManager() {
 		
-    	gameScreen = new GameScreen();
 		this.board = new Board();
+    	gameScreen = new GameScreen(board);
+
 		
     	gameScreen.addWindowListener(new WindowAdapter() {
       	  public void windowClosing(WindowEvent e) {
@@ -67,7 +68,6 @@ public class GameManager{
         
         
         gameScreen.set_Current_Piece_Color(board.current_piece.pieceColor);
-        gameScreen.set_Next_Piece_Color(board.next_piece.pieceColor);
     	
     	
 //        KeypressSimulation test = new KeypressSimulation(board);
@@ -141,7 +141,6 @@ public class GameManager{
 //	    	try{
 	    		int x = board.next_piece.SHAPES[0][0].length, y = board.next_piece.SHAPES[0].length;
 	    		
-	    		gameScreen.set_Next_Piece_Color(board.next_piece.pieceColor);
 	    		
 	    	for(int i = 0; i < 4; i++) {
 				for(int j = 0; j < 4; j++)
@@ -169,9 +168,9 @@ public class GameManager{
 	        if (board.score > previousScore) {
 	            // Play the sound for earning points
 	            MusicPlayer player = MusicPlayer.getInstance();
-	            player.playMusic("src\\totach.wav", false);
+	            player.playMusic("Tetris\\src\\totach.wav", false);
 	            MusicPlayer player1 = MusicPlayer.getInstance();
-        	    player1.playMusic("src\\game_music.wav", true);
+        	    player1.playMusic("Tetris\\src\\game_music.wav", true);
 	            // Update the previous score to the current score
 	            previousScore = board.score;
 	            }

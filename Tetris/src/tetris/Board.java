@@ -12,7 +12,7 @@ public class Board{
 	public final int BOARD_SIZE_X = 10;
 	public final int BOARD_SIZE_Y = 20;
 	public Boolean isMoveable = true;
-	Piece current_piece, next_piece;
+	public Piece current_piece, next_piece;
 	final int EMPTY_ROWS = 5;
 	Random rng = new Random();
 	ReadWriteLock thread_lock = new ReentrantReadWriteLock();
@@ -206,12 +206,6 @@ public class Board{
 		
 		if(!piece_alive) {
 			updateNextPiece = true;
-			   try {
-		            Thread.sleep(380);
-		        } catch (InterruptedException e) {
-		            // Handle the interrupted exception if the thread is interrupted
-		            e.printStackTrace();
-		        }
 			current_piece = spawn_piece();
 		}
 	}

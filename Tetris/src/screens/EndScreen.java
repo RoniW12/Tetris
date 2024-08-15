@@ -28,7 +28,7 @@ public class EndScreen {
     	player.stopMusic();
 
     	// Play the loser sound once when the end screen is shown
-    	player.playMusic("src\\loser.wav", false);
+    	player.playMusic("Tetris\\src\\loser.wav", false);
 
        
 
@@ -44,7 +44,7 @@ public class EndScreen {
         frame.setLocationRelativeTo(null); // Center the frame
 
         // Create the background panel with the background image
-        BackgroundPanel backgroundPanel = new BackgroundPanel("src\\game_over_image.jpg");
+        BackgroundPanel backgroundPanel = new BackgroundPanel("Tetris\\src\\game_over_image.jpg");
         backgroundPanel.setLayout(null); // Use null layout for absolute positioning
 
         // Create and add a label for the game over message
