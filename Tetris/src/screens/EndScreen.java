@@ -225,5 +225,3 @@ class CustomInputbox extends JTextField {
    
 
 }
-
-

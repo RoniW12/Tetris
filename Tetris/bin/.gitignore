@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /background_image.jpg
 /game_music.wav
 /game_over_image.jpg
@@ -14,3 +15,7 @@
 /tetris_Image.jpg
 /totach.wav
 /welcome to the show.wav
+=======
+/screens/
+/tetris/
+>>>>>>> 48d7bc1633a075b8d4e673f0e5dc4ef30a2d26d9

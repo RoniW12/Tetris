@@ -207,6 +207,7 @@ public class Board{
 		if(!piece_alive) {
 			updateNextPiece = true;
 			current_piece = spawn_piece();
+			updateNextPiece = true;
 		}
 	}
 	

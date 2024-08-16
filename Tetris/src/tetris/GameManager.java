@@ -110,7 +110,6 @@ public class GameManager{
 		}
 	    public void run()
 	    {	
-	    	
 	    	if(board.gameOver) {
 	    		System.out.println("quitting game");
 	    		stopGame(true);
@@ -122,6 +121,7 @@ public class GameManager{
 	    		System.out.println("********tick speed = "+(int) (50 + 300* Math.exp(-0.8*board.multiplier))+"**********");
 	    		scheduledFuture.cancel(true);
 	    		scheduledFuture = timer.scheduleAtFixedRate(gameTask, 250, (int) (50 + 300* Math.exp(-0.8*board.multiplier)), TimeUnit.MILLISECONDS);	    	}
+
 	    	
 			board.move_down();
 //			_board.print_board();
@@ -139,8 +139,6 @@ public class GameManager{
 	    private void updateNextPiece() {
 //	    	try{
 	    		int x = board.next_piece.SHAPES[0][0].length, y = board.next_piece.SHAPES[0].length;
-	    		
-	    		
 	    	for(int i = 0; i < 4; i++) {
 				for(int j = 0; j < 4; j++)
 				{
@@ -153,9 +151,6 @@ public class GameManager{
 //	    	}catch(Exception e)
 //    		{System.out.println(e.getStackTrace());}
 		}
-	
-	    
-	    
 		public void updateBoard() {
 			for(int i = 0; i < board.BOARD_SIZE_Y; i++) {
 				for(int j = 0; j< board.BOARD_SIZE_X; j++) {
