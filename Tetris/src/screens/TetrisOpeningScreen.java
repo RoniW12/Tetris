@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
 
-public class TetrisOpeningScreen  extends Thread {
+public class TetrisOpeningScreen  extends Thread implements IThread{
     public void run() {
     	MusicPlayer player = MusicPlayer.getInstance();
  	    player.playMusic("Tetris\\src\\welcome to the show.wav", false);

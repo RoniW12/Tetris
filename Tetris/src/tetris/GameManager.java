@@ -2,8 +2,6 @@ package tetris;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -17,6 +15,7 @@ import javax.swing.KeyStroke;
 
 import screens.EndScreen;
 import screens.GameScreen;
+import screens.IThread;
 import screens.MusicPlayer;
 import screens.TetrisOpeningScreen;
 
@@ -99,7 +98,7 @@ public class GameManager{
 	    return false;
 	}
 	
-	public class Helper implements Runnable {
+	public class Helper implements Runnable, IThread {
 		ScheduledExecutorService _timer;
 		int counter;
 		Board board;
